@@ -3,13 +3,23 @@ import data from './data'
 import './App.css'
 import Articolo from './Articolo';
 
-//Funzione che se presente 'Theme' nel localStorage ritorna il suo valore o di default return 'light-mode'
+//TIPIZZA THEME!!!!!
+type Theme = "light-mode" | "dark-mode"
 
+
+//Funzione che se presente 'Theme' nel localStorage ritorna il suo valore o di default return 'light-mode'
+const getLocalStorage =(): Theme =>{
+  if (localStorage.getItem("theme") === "dark-mode"){
+    return "dark-mode"
+  }else{
+    return "light-mode"
+  }
+}
 
 
 function App() {
   //useState che definisce il tema:
-  const[theme, setTheme] = useState("light-mode")
+  const[theme, setTheme] = useState(getLocalStorage())
 
   //funzione per cambiare tema:
   const cambiaTema = () => {
@@ -26,6 +36,8 @@ function App() {
   //i CLASSNAME vengono presi dal mio css!!
   useEffect(()=>{
     document.documentElement.className = theme
+    //per salvarre valore nel localStorage
+    localStorage.setItem("theme",theme)
     //useEffect viene avviato quando cambia "theme" = [theme]
   }, [theme])
 
